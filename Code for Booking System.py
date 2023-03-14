@@ -5,6 +5,11 @@
 
 import csv
 
+available_seats = []
+booked_seats = []
+for i in range (21):
+    available_seats.append(i)
+
 def read_csv(name):
     movieDict = {}
     with open(name, 'r', newline='') as file:
@@ -15,8 +20,7 @@ def read_csv(name):
                 k = row[0]
                 v=[row[1],row[2],row[3],row[4],row[5],[row[6],row[7],row[8]]]
                 movieDict[k]=v
-            counter += 1
-            
+            counter += 1     
         return movieDict
       
 def show_movie(movieDict):
@@ -26,9 +30,29 @@ def show_movie(movieDict):
 
 
 def check_showtime(movieDict):
-    response = input('please key in the ID of the movie: ')
-    print(movieDict[response])
+    response1 = input('please key in the ID of the movie: ')
+    print('time ID  |Time')
+    for i in range(3):
+        print(i+1,'       |',movieDict[response1][5][i])
+        
+    response2 = int(input('please key in the time ID:'))-1
+
+    print('you have selected to watch a ',movieDict[response1][0], ' at the following time: ',movieDict[response1][5][response2])
+
+def select_seat(booked_seats):
+    print('please select a seat from the following ID')
+    for i in available_seats:
+        print(i)
+    response3 = int(input('key in the seat number here: '))
+    if response3 not in booked_seats:
+        print(response3, 'selected')
+        booked_seats.append(response3)
+    else:
+        print('seat occuppied')
+    return booked_seats
+
 
 a = read_csv("Software Engineering - Movie List.csv")
 show_movie(a)
 check_showtime(a)
+booked_seats = select_seat(booked_seats)
