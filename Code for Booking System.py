@@ -26,7 +26,8 @@ def new_dict1(name):
 movieTitles = new_dict1('Software Engineering - Movie List.csv')
 
 
-
+for i in movieTitles:
+    print(i)
 
 
 '''
