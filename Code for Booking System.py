@@ -4,7 +4,8 @@
 
 import csv
 
-#Jeff is my favourite Chinaman
+#Jeff is my favourite Chineseman 
+
 
 
 #Function to read csv file and place values which are in more than one column into a list
