@@ -1,11 +1,11 @@
-﻿Movie Title,Age Rating,Run Time,Price
-A Fistful of Dollars,15,1h 39m,£6
-Borat: Cultural Learnings of America for Make Benefit Glorious Nation of Kazakhstan,15,1h 24m,£6
-Pretty Woman,15,1h 59m,£7.50
-The Batman,15,2h 56m,£12
-The Godfather Part II,18,3h 20m,£13.50
-Shrek 2,U,1h 45m,£5
-Raiders of the Lost Ark,12A,1h 55m,£8
-The Grand Budapest Hotel,15,1h 40m,£10
-Star Wars - Return of the Jedi,U,2h 11m,£10.50
-Mrs. Doubtfire,12,2h,£7.60
+﻿Movie Title,Threatre Number,Age Rating,Run Time,Price
+A Fistful of Dollars,1,15,1h 39m,£6
+Borat: Cultural Learnings of America for Make Benefit Glorious Nation of Kazakhstan,2,15,1h 24m,£6
+Pretty Woman,1,15,1h 59m,£7.50
+The Batman,1,15,2h 56m,£12
+The Godfather Part II,1,18,3h 20m,£13.50
+Shrek 2,2,U,1h 45m,£5
+Raiders of the Lost Ark,2,12A,1h 55m,£8
+The Grand Budapest Hotel,2,15,1h 40m,£10
+Star Wars - Return of the Jedi,1,U,2h 11m,£10.50
+Mrs. Doubtfire,2,12,2h,£7.60
