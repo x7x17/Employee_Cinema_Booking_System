@@ -33,9 +33,37 @@ def check_showtime(movieDict):
     print('time ID  |Time')
     for i in range(3):
         print(i+1,'       |',movieDict[response1][5][i])
-        
-      
     
+        
+    response2 = int(input('please key in the time ID:'))-1
+
+    print('you have selected to watch a ',movieDict[response1][0], ' at the following time: ',movieDict[response1][5][response2])
+    customer_order.append(response1)
+    customer_order.append(movieDict[response1][0])
+    
+    customer_order.append(movieDict[response1][5][response2])
+def select_seat(booked_seats):
+    print('please select a seat from the following ID')
+    for i in available_seats:
+        print(i)
+    response3 = int(input('key in the seat number here: '))
+    if response3 not in booked_seats:
+        print(response3, 'selected')
+        booked_seats.append(response3)
+        customer_order.append(response3)
+    else:
+        print('seat occuppied')
+    return booked_seats
+
+
+a = read_csv("Software Engineering - Movie List.csv")
+show_movie(a)
+check_showtime(a)
+booked_seats = select_seat(booked_seats)
+print(customer_order)
+
+
+
 import tkinter as tk
 from tkinter import ttk
 
@@ -92,31 +120,3 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = CinemaSeatSelection(root)
     root.mainloop()
-    
-        
-    response2 = int(input('please key in the time ID:'))-1
-
-    print('you have selected to watch a ',movieDict[response1][0], ' at the following time: ',movieDict[response1][5][response2])
-    customer_order.append(response1)
-    customer_order.append(movieDict[response1][0])
-    
-    customer_order.append(movieDict[response1][5][response2])
-def select_seat(booked_seats):
-    print('please select a seat from the following ID')
-    for i in available_seats:
-        print(i)
-    response3 = int(input('key in the seat number here: '))
-    if response3 not in booked_seats:
-        print(response3, 'selected')
-        booked_seats.append(response3)
-        customer_order.append(response3)
-    else:
-        print('seat occuppied')
-    return booked_seats
-
-
-a = read_csv("Software Engineering - Movie List.csv")
-show_movie(a)
-check_showtime(a)
-booked_seats = select_seat(booked_seats)
-print(customer_order)
