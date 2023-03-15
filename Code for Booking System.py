@@ -1,7 +1,7 @@
 
 # Dictionary to store movies
 #Rather than hard coding we should import by CSV 
-mport csv
+import csv
 
 available_seats = []
 customer_order = []
