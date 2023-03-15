@@ -1,13 +1,16 @@
 
 # Dictionary to store movies
 #Rather than hard coding we should import by CSV 
-import csv
+mport csv
 
 available_seats = []
-booked_seats = []
 customer_order = []
+booked_seats = {}
+
 for i in range (21):
     available_seats.append(i)
+
+
 
 def read_csv(name):
     movieDict = {}
@@ -17,50 +20,60 @@ def read_csv(name):
         for row in csvreader:
             if counter != 0:
                 k = row[0]
-                v=[row[1],row[2],row[3],row[4],row[5],[row[6],row[7],row[8]]]
+                v=[row[1],row[2],row[3],row[4],row[5],row[6],row[7]]
                 movieDict[k]=v
             counter += 1     
         return movieDict
       
 def show_movie(movieDict):
-    print('ID','Movie title')
+    print('MovieID','Movie title')
+    temp = []
     for k,v in movieDict.items():
-        print(k,v[0])          
-
+        if v[0] not in temp:
+            print(v[0],v[1])         
+            temp.append(v[0])
+    temp.clear()
 
 def check_showtime(movieDict):
     response1 = input('please key in the ID of the movie: ')
     print('time ID  |Time')
-    for i in range(3):
-        print(i+1,'       |',movieDict[response1][5][i])
-    
-        
-    response2 = int(input('please key in the time ID:'))-1
+    for k,v in movieDict.items():
+        if v[0] == response1:
+            print(k,'       |',v[6])
+            
+    response2 = input('please key in the time ID:')
+    print('you have selected to watch a ',movieDict[response2][1], ' at the following time: ',movieDict[response2][6])
+    customer_order.append(response2)
 
-    print('you have selected to watch a ',movieDict[response1][0], ' at the following time: ',movieDict[response1][5][response2])
-    customer_order.append(response1)
-    customer_order.append(movieDict[response1][0])
-    
-    customer_order.append(movieDict[response1][5][response2])
 def select_seat(booked_seats):
+    
     print('please select a seat from the following ID')
     for i in available_seats:
         print(i)
     response3 = int(input('key in the seat number here: '))
-    if response3 not in booked_seats:
-        print(response3, 'selected')
-        booked_seats.append(response3)
-        customer_order.append(response3)
+    
+    if customer_order[0] not in booked_seats:
+        booked_seats_list = [response3]
+        booked_seats[customer_order[0]] = booked_seats_list
+        print('seat ',response3, ' booked successfully')  
     else:
-        print('seat occuppied')
-    return booked_seats
-
+        if response3 in booked_seats[customer_order[0]]:
+            print('seat occupied')
+        else:
+            booked_seats[customer_order[0]].append(response3) 
+            print('seat ',response3, ' booked successfully')         
+            
 
 a = read_csv("Software Engineering - Movie List.csv")
 show_movie(a)
 check_showtime(a)
-booked_seats = select_seat(booked_seats)
-print(customer_order)
+select_seat(booked_seats)
+
+
+
+show_movie(a)
+check_showtime(a)
+select_seat(booked_seats)
 
 
 
