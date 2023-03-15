@@ -36,7 +36,7 @@ def check_showtime(movieDict):
         
       
     
- import tkinter as tk
+import tkinter as tk
 from tkinter import ttk
 
 
@@ -55,7 +55,7 @@ class CinemaSeatSelection:
         self.title_label.pack(pady=(0, 20))
 
         # Adding an image to the window
-        self.seat_image = tk.PhotoImage(file="cinemaSeats2.png")
+        self.seat_image = tk.PhotoImage(file="cinemaSeats.png")
         self.image_label = tk.Label(self.frame, image=self.seat_image)
         self.image_label.pack()
 
