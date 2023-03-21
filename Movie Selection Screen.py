@@ -3,8 +3,9 @@ import tkinter as tk
 # Create the main window
 root = tk.Tk()
 # Create the title and icon for window
-root.title('VUE THEATRES')
-root.iconbitmap('C:/Users/Batra/Downloads/ico.ico')
+root.title('KEELE PICTURE HOUSE')
+root.iconbitmap('C:/Software Engineering/Employee_Cinema_Booking_System/Employee_Cinema_Booking_System/ico.ico')
+
 
 # Create the heading label
 heading_label = tk.Label(root, text="List of Movies",height=1, width=80, font=("Ariel", 12))
