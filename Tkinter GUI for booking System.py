@@ -36,10 +36,6 @@ def movieSelect():
     Submitbtn = Button(frame, text = 'Submit', command = s1ToS2)
     Submitbtn.pack(pady=30)
 
-
-
-
-
     return frame
 
  
@@ -49,12 +45,6 @@ def showingTimes():
     showTime_frame = Frame(root)
 
     showTime_frame = Frame(root, width=1000, height=500, bg='blue')
-
-    
-    #frame.place(x=0, y=0)
-    #frame.pack(fill="both", expand=True)
-    #frame.pack(fill=NONE, expand=0)
-
 
      # Create the heading label
     heading_label = Label(showTime_frame, text="Showing Times",height=1, width=80, font=("Ariel", 12))
@@ -66,18 +56,19 @@ def showingTimes():
         movie_button = Button(showTime_frame, text=f"Time Slot {i+1}",font=("Ariel", 10), height=1, width=30)
         movie_button.pack(pady=5)
 
-    '''
+
     #create back button to go back to the previous screen needs to be called within each screen function
-    def back():
+    '''def back():
             showTime_frame.destroy()
             home_frame = movieSelect()
             home_frame.pack(fill=NONE, expand=0)
     backBtn =Button(showTime_frame, text='Back', font=('Arial', 25), command=back)
     backBtn.pack(pady=10)
+    '''
     
     #Back button currently has errors relating to not unpacking the previous screen and also packing the 
-    backBtn each time the backBtn is pressed
-    '''
+    #backBtn each time the backBtn is pressed
+    
 
 
     def s2ToS3():
@@ -110,8 +101,6 @@ def seatSelect():
     heading_label.pack(pady=10)
 
     # Adding a title to the window
-    #title_label = Label(frame, text="Seat Selection", font=("Helvetica", 18, "bold"))
-    #title_label.pack(pady=(0, 20))
     
 
     # Adding an image to the window
@@ -127,24 +116,24 @@ def seatSelect():
     seat_options = [str(i) for i in range(1, 21)]
     selected_seat = StringVar()
     selected_seat.set(seat_options[0])
-    seat_dropdown = Combobox(seatSelect_frame, textvariable=selected_seat, values=seat_options,
-                                          state="readonly")
+    seat_dropdown = Combobox(seatSelect_frame, textvariable=selected_seat, values=seat_options, state="readonly")
     seat_dropdown.pack()
     
-    '''
+    
     #This code block doesn't work it just displays you have selected seat 1 constantly 
 
-
+    '''
      #Adding a label for displaying seat selection message
     message_label = Label(seatSelect_frame, text="", font=("Helvetica", 12))
     message_label.pack(pady=10)
     def display_choosen_seat():
     # Retrieving the selected seat
-        choosen_seat = selected_seat.get()
+    choosen_seat = selected_seat.get()
     # Updating the message label with the selected seat number
         message = f"You have selected seat {choosen_seat}"
         message_label.config(text=message)
     '''
+    
 
     def s3ToS4():
 
@@ -171,8 +160,6 @@ def confirmPage():
 
 
     confirmPage_frame = Frame(root, width=1000, height=500, bg='purple')
-    #frame.place(x=0, y=0)
-    #frame.pack(fill="both", expand=True)
 
     # Create the heading label
     heading_label = Label(confirmPage_frame, text="Confirmation Page",height=1, width=80, font=("Ariel", 12))
