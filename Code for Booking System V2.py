@@ -72,7 +72,7 @@ def movieSelect():
 
     frame = Frame(root)
 
-    frame = Frame(root, width=1000, height=500, bg='red')
+    frame = Frame(root, width=1000, height=500, bg='CadetBlue')
     #frame.place(x=0, y=0)
     #frame.pack(fill="both", expand=True)
 
@@ -135,7 +135,7 @@ def showingTimes():
     
     showTime_frame = Frame(root)
 
-    showTime_frame = Frame(root, width=1000, height=500, bg='blue')
+    showTime_frame = Frame(root, width=1000, height=500, bg='CadetBlue')
 
      # Create the heading label
     heading_label = Label(showTime_frame, text="Showing Times",height=1, width=80, font=("Ariel", 12))
@@ -200,7 +200,7 @@ def seatSelect():
     seatSelect_frame = Frame(root)
 
 
-    seatSelect_frame = Frame(root, width=1000, height=500, bg='green')
+    seatSelect_frame = Frame(root, width=1000, height=500, bg='CadetBlue')
     #frame.place(x=0, y=0)
     #frame.pack(fill="both", expand=True)
 
@@ -270,7 +270,7 @@ def confirmPage():
     confirmPage_frame = Frame(root)
 
 
-    confirmPage_frame = Frame(root, width=1000, height=500, bg='purple')
+    confirmPage_frame = Frame(root, width=1000, height=500, bg='CadetBlue')
 
     # Create the heading label
     heading_label = Label(confirmPage_frame, text="Confirmation Page",height=1, width=80, font=("Ariel", 12))
