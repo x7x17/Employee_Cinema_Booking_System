@@ -6,6 +6,8 @@ import csv
 available_seats = []
 customer_order = []
 booked_seats = {}
+order_history = {}
+order_history[0] = ['Pretty Woman', '14/03/2023 17:30', '4', 'aa', 'aa', 'aa', 'aa', 'aa']
 
 orderSummary = []
 
@@ -182,10 +184,11 @@ def showingTimes():
         seatSelect_frame.pack(fill=NONE, expand=0)
 
         #for loop to check if we are able to verfy the info selected by the user to the dictionary
+        '''
         for k,v in movieDict.items():
             if v[1] == orderSummary[0] and v[6] == orderSummary[1]:
                 print ('success')
-
+        '''
     
     Submitbtn = Button(showTime_frame, text = 'Submit', command = s2ToS3)
     Submitbtn.pack(pady=30)
@@ -221,7 +224,13 @@ def seatSelect():
     select_label.pack(pady=(20, 10))
 
     # Adding a dropdown menu for seat selection
-    seat_options = [str(i) for i in range(1, 21)]
+    occuppied_seat = []
+    for k,v in order_history.items():
+        if orderSummary[0] == v[0] and orderSummary[1] == v[1]:
+            occuppied_seat.append (int(v[2]))
+    print(occuppied_seat)
+    seat_options = [str(i) for i in range(1, 21) if i not in occuppied_seat]
+    occuppied_seat.clear()
     selected_seat = StringVar()
     selected_seat.set(seat_options[0])
     seat_dropdown = Combobox(seatSelect_frame, textvariable=selected_seat, values=seat_options, state="readonly")
@@ -344,7 +353,12 @@ def confirmPage():
         orderSummary.append(c)
         orderSummary.append(d)
         orderSummary.append(e)
-        print(orderSummary)
+        #print(orderSummary)
+
+        order_history[len(order_history)] = orderSummary
+        print(order_history)        
+        orderSummary.clear()
+
     button =Button(confirmPage_frame, text="Submit" , command= enter_data)
     button.grid(row=3, column=1, sticky="news", padx=20, pady=10)
 
