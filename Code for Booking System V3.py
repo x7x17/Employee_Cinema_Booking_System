@@ -194,6 +194,34 @@ def showingTimes():
     Submitbtn.pack(pady=30)
 
 
+    def s2ToS1():
+            
+            
+            showTime_frame.pack_forget()
+            home_frame = movieSelect()
+
+            home_frame.pack(fill=NONE, expand=0)
+    
+            
+    Backbtn = Button(showTime_frame, text="Back", command= s2ToS1)
+    Backbtn.pack()
+
+
+    def restart():
+    # reset all the widgets and variables to their initial values
+    # then call the main function again
+        for widget in root.winfo_children():
+            widget.destroy()
+
+        home_frame = movieSelect()
+
+        home_frame.pack(fill=NONE, expand=0)
+
+        root.mainloop()
+    Backbtn = Button(showTime_frame, text="Restart", command= restart)
+    Backbtn.pack()
+
+
     return showTime_frame
 
 
@@ -266,6 +294,15 @@ def seatSelect():
     #Submitbtn = Button(seatSelect_frame, text = 'Submit', command=lambda: [s3ToS4(), submit_seat_selection()])
     Submitbtn = Button(seatSelect_frame, text = 'Submit', command= s3ToS4) 
     Submitbtn.pack(pady=30)
+
+
+    def s3ToS2():
+            
+            showingTimes_frame = showingTimes()
+            seatSelect_frame.pack_forget()
+            showingTimes_frame.pack(fill='both', expand=True)
+    Backbtn = Button(seatSelect_frame, text="Back" , command= s3ToS2)
+    Backbtn.pack()
 
    
 
@@ -361,6 +398,15 @@ def confirmPage():
 
     button =Button(confirmPage_frame, text="Submit" , command= enter_data)
     button.grid(row=3, column=1, sticky="news", padx=20, pady=10)
+
+
+    def s4ToS3():
+            
+            seatSelect_frame = seatSelect()
+            confirmPage_frame.pack_forget()
+            seatSelect_frame.pack(fill='both', expand=True)
+    Backbtn = Button(confirmPage_frame, text="Back" , command= s4ToS3)
+    Backbtn.grid(row=3, column=2, sticky="news", padx=20, pady=10)
 
     return confirmPage_frame
 
