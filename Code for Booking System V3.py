@@ -207,21 +207,6 @@ def showingTimes():
     Backbtn.pack()
 
 
-    def restart():
-    # reset all the widgets and variables to their initial values
-    # then call the main function again
-        for widget in root.winfo_children():
-            widget.destroy()
-
-        home_frame = movieSelect()
-
-        home_frame.pack(fill=NONE, expand=0)
-
-        root.mainloop()
-    Backbtn = Button(showTime_frame, text="Restart", command= restart)
-    Backbtn.pack()
-
-
     return showTime_frame
 
 
@@ -243,7 +228,7 @@ def seatSelect():
     
 
     # Adding an image to the window
-    seat_image = PhotoImage(file="cinemaSeats.png")
+    seat_image = PhotoImage(file="Image.png")
     image_label = Label(seatSelect_frame, image=seat_image)
     image_label.pack()
 
@@ -411,12 +396,13 @@ def confirmPage():
     return confirmPage_frame
 
 
-
 # Create a new frame that displays the finally details alongside the price to pay and display payment details i..e paypal account or cash amount
 #A button should be avaible to return the user to the home_frame
 #def successScreen():
 
- 
+    
+   
+
 
  
 
