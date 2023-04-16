@@ -4,7 +4,7 @@ available_seats = []
 customer_order = []
 booked_seats = {}
 order_history = {}
-order_history[0] = ['Pretty Woman', '14/03/2023 17:30', '4', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa']
+#order_history[0] = ['Pretty Woman', '14/03/2023 17:30', '4', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa']
 
 orderSummary = []
 
@@ -116,7 +116,7 @@ for k,v in order_history.items():
     #ln (0 False; 1 True = move cursor down to next line)
     #border (0 False; 1 True - add border around cell)
 
-#pdf.output('fpdftest.pdf')
+pdf.output('fpdftest.pdf')
     
 
 
@@ -221,8 +221,8 @@ def movieSelect():
     movie_dropdown.pack()
 
     def s1ToS2():
-
-        a =movie_dropdown.get()
+        global orderSummary
+        a = movie_dropdown.get()
         orderSummary.append(a)
         #print(orderSummary)
         home_frame.destroy()
@@ -264,6 +264,7 @@ def showingTimes():
 
 
     # Create the movie buttons
+    global orderSummary
     timeSlotOptions = []
     for k,v in movieDict.items():
         if v[1] == orderSummary[0]:
@@ -294,6 +295,7 @@ def showingTimes():
 
 
     def s2ToS3():
+        global orderSummary
         a = timeSlot_dropdown.get()
         orderSummary.append(a)
 
@@ -356,6 +358,7 @@ def seatSelect():
     select_label.pack(pady=(20, 10))
 
     # Adding a dropdown menu for seat selection
+    global orderSummary
     occuppied_seat = []
     for k,v in order_history.items():
         if orderSummary[0] == v[0] and orderSummary[1] == v[1]:
@@ -385,7 +388,8 @@ def seatSelect():
     
 
     def s3ToS4():
-
+        
+        global orderSummary
         a = seat_dropdown.get()
         orderSummary.append(a)
         
@@ -416,6 +420,8 @@ def seatSelect():
 
 
 def confirmPage():
+    
+    global orderSummary
 
     confirmPage_frame = Frame(root)
 
@@ -477,33 +483,60 @@ def confirmPage():
     email_entry= Entry(user_info_LabelFrame )
     email_entry.grid(row=3, column=2,)
 
+    
+
 
     for widget in user_info_LabelFrame .winfo_children():
         widget.grid_configure(padx=10,pady=5)
+        
+        
+        
+
+
+    def append_to_orderSum():
+    
+        
+        global orderSummary
+ # replace with the value you want to append
+        orderSummary.append(33)
+        print(orderSummary)
+    
+    # create a button that, when clicked, appends 33 to orderSummary
+    append_button = Button(confirmPage_frame, text="Append to Order Summary", command=append_to_orderSum)
+    append_button.grid(row=3, column=2)
+
 
 
     def enter_data():
-
-        a = title_combobox.get()
-        b= first_name_entry.get()
-        c = last_name_entry.get()
-        d= age_spinbox.get()
-        e = email_entry.get()
-        orderSummary.append(a)
-        orderSummary.append(b)
-        orderSummary.append(c)
-        orderSummary.append(d)
-        orderSummary.append(e)
+            a = title_combobox.get()
+            b= first_name_entry.get()
+            c = last_name_entry.get()
+            d= age_spinbox.get()
+            e = email_entry.get()
+            
+            """
+            append_to_orderSum(a)
+            append_to_orderSum(b)
+            append_to_orderSum(b)
+            append_to_orderSum(d)
+            append_to_orderSum(e)
+            #print(orderSummary)
         
-        print(orderSummary)
-        pdf.output('test123.pdf')
+            """
+        
+    
+        
 
-        order_history[len(order_history)] = orderSummary
-        print(order_history)        
+    order_history[len(order_history)] = orderSummary
+        #print(order_history)        
         #orderSummary.clear()
+        
 
     button =Button(confirmPage_frame, text="Submit" , command= enter_data)
     button.grid(row=3, column=1, sticky="news", padx=20, pady=10)
+
+    if button == True:
+        pdf.output('test123.pdf')
 
 
     def s4ToS3():
@@ -513,6 +546,8 @@ def confirmPage():
             seatSelect_frame.pack(fill='both', expand=True)
     Backbtn = Button(confirmPage_frame, text="Back" , command= s4ToS3)
     Backbtn.grid(row=3, column=2, sticky="news", padx=20, pady=10)
+    
+    
 
     return confirmPage_frame
 
@@ -521,11 +556,12 @@ def confirmPage():
 #A button should be avaible to return the user to the home_frame
 #def successScreen():
 
+
+
     
-   
-
-
- 
+print(orderSummary)
+print('globle var')
+print(order_history)
 
 root = Tk()
 
