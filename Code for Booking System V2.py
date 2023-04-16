@@ -7,7 +7,7 @@ available_seats = []
 customer_order = []
 booked_seats = {}
 order_history = {}
-order_history[0] = ['Pretty Woman', '14/03/2023 17:30', '4', 'aa', 'aa', 'aa', 'aa', 'aa']
+order_history[0] = ['Pretty Woman', '14/03/2023 17:30', '4', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa']
 
 orderSummary = []
 
@@ -63,6 +63,131 @@ def select_seat(booked_seats):
 
 #a = read_csv("Software Engineering - Movie List.csv")
 movieDict = read_csv("Software Engineering - Movie List.csv")
+
+
+
+from fpdf import FPDF
+
+def create_pdf():
+    class PDF(FPDF):
+    
+        def header(self):
+            #logo
+            #self.image('ico.ico', 10, 8, 60)
+            #font
+            self.set_font('times', 'BU', size=20)
+            #Padding
+            self.cell(60)
+            #title
+            self.cell(90, 10, 'Movie Ticket', border=1, ln=1, align='C')
+            #line break
+            self.ln(20)
+            
+        
+            
+        # page footer
+        def footer(self):
+                #set postion of the footer 
+                self.set_y(-15)
+                #set font
+                self.set_font('times', 'I', size=12)
+                #Page number
+                self.cell(0, 10, f'Page {self.page_no()}/{{nb}}', align='C' )
+    
+        #Create FPDF object
+        # Layout ('P', 'L')
+        # Unit ('mm', 'cm', 'in')
+        # format ('A3', 'A4' (defualt), 'A5', 'Letter', 'Legal', (100,150))
+    pdf = PDF('P', 'mm', 'A4')
+    
+    #get total page numbers
+    pdf.alias_nb_pages()
+        
+        
+        #set auto page break
+    pdf.set_auto_page_break(auto=True, margin=15)
+        
+        
+        
+     ## add a blank page to the PDF doc
+    pdf.add_page()
+        
+        ## set font of text
+        # fonts ('times', 'courier', 'helvetica', 'symbol', 'zpfdingbats')
+        # 'B' - bold, 'U' - underlined, 'I' - italics, '' (regular), combination e.g. ('BU')
+    pdf.set_font('times', 'B', 12)  
+    
+    #add Page Contents
+    pdf.set_xy(20,40)
+    pdf.cell(80, 10, 'Movie Title:', 1, 0, 'C')
+    pdf.cell(40, 10, 'Showing Time:', 1, 0, 'C')
+    pdf.cell(30, 10, 'Seat No:', 1, 0, 'C')
+    
+    
+    pdf.set_xy(20, 70)
+    pdf.cell(20, 10, 'Title:', 1, 0, 'C')
+    pdf.cell(50, 10, 'FirstName:', 1, 0, 'C')
+    pdf.cell(70, 10, 'LastName:', 1, 0, 'C')
+    
+    
+    pdf.set_xy(20, 100)
+    pdf.cell(20, 10, 'Age:', 1, 0, 'C')
+    pdf.cell(20,10, 'Sex:', 1, 0, 'C')
+    pdf.cell(100, 10, 'Email Address:', 1,0, 'C')
+    
+    
+    
+    #values for first table in PDF
+    pdf.set_xy(20, 50)
+    for k,v in order_history.items():
+            pdf.cell(80, 10, '%s' %k, 2, 0, 'C')
+            pdf.cell(40, 10, '%s' %v[1], 1, 0, 'C')
+            pdf.cell(30, 10, '%s' %v[2], 1, 0, 'C')
+            pdf.cell(-50)
+            
+    #values for second table in PDF       
+    pdf.set_xy(20, 80) 
+    for k,v in order_history.items():
+            pdf.cell(20, 10, '%s' %v[3], 1, 0, 'C')
+            pdf.cell(50, 10, '%s' %v[4], 1, 0, 'C')
+            pdf.cell(70, 10, '%s' %v[5], 1, 0, 'C')
+            pdf.cell(-50)     
+    
+    #values for third table in PDF       
+    pdf.set_xy(20, 110) 
+    for k,v in order_history.items():
+            pdf.cell(20, 10, '%s' %v[6], 1, 0, 'C')
+            pdf.cell(20, 10, '%s' %v[7], 1, 0, 'C')
+            pdf.cell(100, 10, '%s' %v[8], 1, 0, 'C')
+            pdf.cell(-50)     
+    
+    
+    
+    pdf.output('MovieTicket.pdf')
+    
+
+    # Add text
+    #Agruments:
+    #width 
+    #Height
+    #txt = your text
+    #ln (0 False; 1 True = move cursor down to next line)
+    #border (0 False; 1 True - add border around cell)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 from tkinter import *
@@ -361,6 +486,10 @@ def confirmPage():
 
     button =Button(confirmPage_frame, text="Submit" , command= enter_data)
     button.grid(row=3, column=1, sticky="news", padx=20, pady=10)
+    
+    
+    btn2 = Button(confirmPage_frame, text="Print Ticket" , command= create_pdf)
+    btn2.grid(row=3, column=2, sticky="news", padx=20, pady=10)
 
     return confirmPage_frame
 
@@ -382,4 +511,12 @@ home_frame = movieSelect()
 
 home_frame.pack(fill=NONE, expand=0)
 
+
+
+
+
+
+
 root.mainloop()
+
+print(order_history)
