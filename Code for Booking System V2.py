@@ -70,6 +70,8 @@ from fpdf import FPDF
 
 def create_pdf():
     class PDF(FPDF):
+        
+        print(order_history)
     
         def header(self):
             #logo
@@ -193,6 +195,24 @@ def create_pdf():
 from tkinter import *
 import tkinter as tk
 from tkinter.ttk import Combobox
+
+def restart_gui():
+    global root, home_frame
+    # Destroy the existing root window
+    root.destroy()
+    # Create a new root window
+    root = Tk()
+    root.minsize(height=500, width=1000)
+    # Reinitialize the home_frame
+    home_frame = movieSelect()
+    home_frame.pack(fill=NONE, expand=0)
+    # Start the main event loop again
+    root.mainloop()
+
+
+
+
+
 
 def movieSelect():
 
@@ -340,26 +360,40 @@ def seatSelect():
     
 
     # Adding an image to the window
-    seat_image = PhotoImage(file="cinemaSeats.png")
-    image_label = Label(seatSelect_frame, image=seat_image)
-    image_label.pack()
+    #seat_image = PhotoImage(file="cinemaSeats.png")
+    #image_label = Label(seatSelect_frame, image=seat_image)
+    #image_label.pack()
 
     # Adding a label for seat selection
     select_label = Label(seatSelect_frame, text="Select a seat:", font=("Helvetica", 12))
     select_label.pack(pady=(20, 10))
 
-    # Adding a dropdown menu for seat selection
     occuppied_seat = []
     for k,v in order_history.items():
-        if orderSummary[0] == v[0] and orderSummary[1] == v[1]:
-            occuppied_seat.append (int(v[2]))
-    print(occuppied_seat)
+          if len(v) >= 3 and orderSummary[0] == v[0] and orderSummary[1] == v[1]:
+              occuppied_seat.append(int(v[2]))
+              print(occuppied_seat)
+    
     seat_options = [str(i) for i in range(1, 21) if i not in occuppied_seat]
     occuppied_seat.clear()
     selected_seat = StringVar()
     selected_seat.set(seat_options[0])
     seat_dropdown = Combobox(seatSelect_frame, textvariable=selected_seat, values=seat_options, state="readonly")
     seat_dropdown.pack()
+
+
+    """
+    # Adding a dropdown menu for seat selection
+    occuppied_seat = []
+    for k,v in order_history.items():
+        if orderSummary[0] == v[0] and orderSummary[1] == v[1]:
+            occuppied_seat.append (int(v[2]))
+            
+            """            
+    # Adding a dropdown menu for seat selection
+  
+    
+    
     
     
     #This code block doesn't work it just displays you have selected seat 1 constantly 
@@ -483,6 +517,12 @@ def confirmPage():
         order_history[len(order_history)] = orderSummary
         print(order_history)        
         orderSummary.clear()
+        
+        confirmPage_frame.destroy()
+
+        Summary_frame = Summary()
+        Summary_frame.pack(fill=NONE, expand=0)
+        
 
     button =Button(confirmPage_frame, text="Submit" , command= enter_data)
     button.grid(row=3, column=1, sticky="news", padx=20, pady=10)
@@ -499,9 +539,38 @@ def confirmPage():
 #A button should be avaible to return the user to the home_frame
 #def successScreen():
 
- 
+def Summary():
 
- 
+    Summary_frame = Frame(root)
+    
+    
+    Summary_frame = Frame(root, width=1000, height=500, bg='CadetBlue')
+    
+    # Create the heading label
+    heading_label = Label(Summary_frame, text="Order Confirmed",height=1, width=80, font=("Ariel", 12))
+    heading_label.grid(row=0, column=1, sticky="news", padx=0, pady=0)
+    
+    """
+    listBox = Listbox(Summary_frame, width=80, height=12)
+    index = tk.END
+    listBox.insert(index,'Movie:'+orderSummary[0])
+    listBox.insert(index,'Time: '+orderSummary[1])
+    listBox.insert(index, 'Seat number: '+orderSummary[2])
+    listBox.insert(index, 'Title: '+orderSummary[3])
+    listBox.insert(index, 'First Name: '+orderSummary[4])
+    listBox.insert(index, 'Surname: '+orderSummary[5])
+    listBox.insert(index, 'Age: '+orderSummary[6])
+    listBox.insert(index, 'Sex: '+orderSummary[7])
+    listBox.insert(index, 'Email Address: '+orderSummary[8])
+    listBox.grid(row=2, column=2, sticky="news", padx=20, pady=10)
+     """
+     
+    btn2 = Button(Summary_frame, text="Restart" , command= restart_gui)
+    btn2.grid(row=0, column=2, sticky="news", padx=20, pady=10)
+     
+     
+
+    return Summary_frame
 
 root = Tk()
 
@@ -519,4 +588,7 @@ home_frame.pack(fill=NONE, expand=0)
 
 root.mainloop()
 
+print(order_summary)
 print(order_history)
+
+create_pdf()
