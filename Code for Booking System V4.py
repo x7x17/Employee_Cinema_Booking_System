@@ -1,11 +1,9 @@
 # Log for Warehouse Inventory
 # Need to be able to add and remove form Log
-available_seats = []
-customer_order = []
-booked_seats = {}
-order_history = {}
-#order_history[0] = ['Pretty Woman', '14/03/2023 17:30', '4', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa']
 
+customer_order = []
+order_history = {}
+order_history[0] = ['Pretty Woman', '14/03/2023 17:30', '4', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa']
 orderSummary = []
 
 
@@ -40,6 +38,7 @@ class PDF(FPDF):
     # Layout ('P', 'L')
     # Unit ('mm', 'cm', 'in')
     # format ('A3', 'A4' (defualt), 'A5', 'Letter', 'Legal', (100,150))
+'''
 pdf = PDF('P', 'mm', 'A4')
 
 #get total page numbers
@@ -82,7 +81,7 @@ pdf.cell(100, 10, 'Email Address:', 1,0, 'C')
 #values for first table in PDF
 pdf.set_xy(20, 50)
 for k,v in order_history.items():
-        pdf.cell(80, 10, '%s' %k, 2, 0, 'C')
+        pdf.cell(80, 10, '%s' %v[0], 2, 0, 'C')
         pdf.cell(40, 10, '%s' %v[1], 1, 0, 'C')
         pdf.cell(30, 10, '%s' %v[2], 1, 0, 'C')
         pdf.cell(-50)
@@ -117,7 +116,80 @@ for k,v in order_history.items():
     #border (0 False; 1 True - add border around cell)
 
 pdf.output('fpdftest.pdf')
+'''
+
+def printpdf (orderSummary):
+    pdf = PDF('P', 'mm', 'A4')
+
+    #get total page numbers
+    pdf.alias_nb_pages()
+        
+        
+        #set auto page break
+    pdf.set_auto_page_break(auto=True, margin=15)
+        
+        
+        
+     ## add a blank page to the PDF doc
+    pdf.add_page()
+        
+        ## set font of text
+        # fonts ('times', 'courier', 'helvetica', 'symbol', 'zpfdingbats')
+        # 'B' - bold, 'U' - underlined, 'I' - italics, '' (regular), combination e.g. ('BU')
+    pdf.set_font('times', 'B', 12)  
+
+    #add Page Contents
+    pdf.set_xy(20,40)
+    pdf.cell(80, 10, 'Movie Title:', 1, 0, 'C')
+    pdf.cell(40, 10, 'Showing Time:', 1, 0, 'C')
+    pdf.cell(30, 10, 'Seat No:', 1, 0, 'C')
+
+
+    pdf.set_xy(20, 70)
+    pdf.cell(20, 10, 'Title:', 1, 0, 'C')
+    pdf.cell(50, 10, 'FirstName:', 1, 0, 'C')
+    pdf.cell(70, 10, 'LastName:', 1, 0, 'C')
+
+
+    pdf.set_xy(20, 100)
+    pdf.cell(20, 10, 'Age:', 1, 0, 'C')
+    pdf.cell(20,10, 'Sex:', 1, 0, 'C')
+    pdf.cell(100, 10, 'Email Address:', 1,0, 'C')
+
+
+
+    #values for first table in PDF
+    pdf.set_xy(20, 50)
+
+    pdf.cell(80, 10, '%s' %orderSummary[0],1, 0, 'C')
+    pdf.cell(40, 10, '%s' %orderSummary[1], 1, 0, 'C')
+    pdf.cell(30, 10, '%s' %orderSummary[2], 1, 0, 'C')
+    pdf.cell(-50)
     
+    #values for second table in PDF       
+    pdf.set_xy(20, 80) 
+
+    pdf.cell(20, 10, '%s' %orderSummary[3], 1, 0, 'C')
+    pdf.cell(50, 10, '%s' %orderSummary[4], 1, 0, 'C')
+    pdf.cell(70, 10, '%s' %orderSummary[5], 1, 0, 'C')
+    pdf.cell(-50)     
+
+    #values for third table in PDF       
+    pdf.set_xy(20, 110) 
+    pdf.cell(20, 10, '%s' %orderSummary[6], 1, 0, 'C')
+    pdf.cell(20, 10, '%s' %orderSummary[7], 1, 0, 'C')
+    pdf.cell(100, 10, '%s' %orderSummary[8], 1, 0, 'C')
+    pdf.cell(-50)       
+
+        # Add text
+        #Agruments:
+        #width 
+        #Height
+        #txt = your text
+        #ln (0 False; 1 True = move cursor down to next line)
+        #border (0 False; 1 True - add border around cell)
+
+    pdf.output('fpdftest.pdf')
 
 
 
@@ -127,12 +199,6 @@ pdf.output('fpdftest.pdf')
 # Dictionary to store movies
 #Rather than hard coding we should import by CSV 
 import csv
-
-
-
-for i in range (21):
-    available_seats.append(i)
-
 
 
 def read_csv(name):
@@ -148,8 +214,8 @@ def read_csv(name):
             counter += 1     
         return movieDict
       
-
-
+#no longer needed
+'''
 def check_showtime(movieDict):
     response1 = input('please key in the ID of the movie: ')
     print('time ID  |Time')
@@ -160,24 +226,8 @@ def check_showtime(movieDict):
     response2 = input('please key in the time ID:')
     print('you have selected to watch a ',movieDict[response2][1], ' at the following time: ',movieDict[response2][6])
     customer_order.append(response2)
-
-def select_seat(booked_seats):
+'''
     
-    print('please select a seat from the following ID')
-    for i in available_seats:
-        print(i)
-    response3 = int(input('key in the seat number here: '))
-    
-    if customer_order[0] not in booked_seats:
-        booked_seats_list = [response3]
-        booked_seats[customer_order[0]] = booked_seats_list
-        print('seat ',response3, ' booked successfully')  
-    else:
-        if response3 in booked_seats[customer_order[0]]:
-            print('seat occupied')
-        else:
-            booked_seats[customer_order[0]].append(response3) 
-            print('seat ',response3, ' booked successfully')         
             
 
 #a = read_csv("Software Engineering - Movie List.csv")
@@ -221,7 +271,7 @@ def movieSelect():
     movie_dropdown.pack()
 
     def s1ToS2():
-        global orderSummary
+        #global orderSummary
         a = movie_dropdown.get()
         orderSummary.append(a)
         #print(orderSummary)
@@ -250,7 +300,7 @@ def movieSelect():
 
     return frame
 
-print(orderSummary)
+#print(orderSummary)
 
 def showingTimes():
     
@@ -264,7 +314,7 @@ def showingTimes():
 
 
     # Create the movie buttons
-    global orderSummary
+    #global orderSummary
     timeSlotOptions = []
     for k,v in movieDict.items():
         if v[1] == orderSummary[0]:
@@ -295,7 +345,7 @@ def showingTimes():
 
 
     def s2ToS3():
-        global orderSummary
+        #global orderSummary
         a = timeSlot_dropdown.get()
         orderSummary.append(a)
 
@@ -358,12 +408,12 @@ def seatSelect():
     select_label.pack(pady=(20, 10))
 
     # Adding a dropdown menu for seat selection
-    global orderSummary
+    #global orderSummary
     occuppied_seat = []
     for k,v in order_history.items():
         if orderSummary[0] == v[0] and orderSummary[1] == v[1]:
             occuppied_seat.append (int(v[2]))
-    print(occuppied_seat)
+    #print(occuppied_seat)
     seat_options = [str(i) for i in range(1, 21) if i not in occuppied_seat]
     occuppied_seat.clear()
     selected_seat = StringVar()
@@ -389,10 +439,9 @@ def seatSelect():
 
     def s3ToS4():
         
-        global orderSummary
+       # global orderSummary
         a = seat_dropdown.get()
         orderSummary.append(a)
-        
         seatSelect_frame.destroy()
 
         confirmPage_frame = confirmPage()
@@ -496,7 +545,7 @@ def confirmPage():
     def append_to_orderSum():
     
         
-        global orderSummary
+        #global orderSummary
  # replace with the value you want to append
         orderSummary.append(33)
         print(orderSummary)
@@ -512,24 +561,20 @@ def confirmPage():
             b= first_name_entry.get()
             c = last_name_entry.get()
             d= age_spinbox.get()
-            e = email_entry.get()
-            
-            """
-            append_to_orderSum(a)
-            append_to_orderSum(b)
-            append_to_orderSum(b)
-            append_to_orderSum(d)
-            append_to_orderSum(e)
-            #print(orderSummary)
-        
-            """
-        
-    
+            e = sex_combobox.get()
+            f = email_entry.get()
+            orderSummary.append(a)
+            orderSummary.append(b)
+            orderSummary.append(c)
+            orderSummary.append(d)
+            orderSummary.append(e)
+            orderSummary.append(f)
+            printpdf(orderSummary)
         
 
-    order_history[len(order_history)] = orderSummary
-        #print(order_history)        
-        #orderSummary.clear()
+            order_history[len(order_history)] = orderSummary
+            print(order_history)        
+            orderSummary.clear()
         
 
     button =Button(confirmPage_frame, text="Submit" , command= enter_data)
@@ -558,10 +603,6 @@ def confirmPage():
 
 
 
-    
-print(orderSummary)
-print('globle var')
-print(order_history)
 
 root = Tk()
 
