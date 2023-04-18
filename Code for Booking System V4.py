@@ -1,7 +1,7 @@
 # Log for Warehouse Inventory
 # Need to be able to add and remove form Log
 
-customer_order = []
+
 order_history = {}
 order_history[0] = ['Pretty Woman', '14/03/2023 17:30', '4', 'Mrs', 'Alexis', 'Richardson', '37', 'Female', 'A.Richardson@gmail.com']
 orderSummary = []
@@ -289,7 +289,7 @@ def showingTimes():
 
    
     
-            
+    #s2 back to s1        
     Backbtn = Button(showTime_frame, text="Back", command= restart_gui)
     Backbtn.pack()
 
@@ -511,11 +511,6 @@ def Summary():
     # Create the heading label
     heading_label = Label(Summary_frame, text="Order Confirmed",height=1, width=80, font=("Ariel", 12))
     heading_label.grid(row=0, column=1, sticky="news", padx=0, pady=0)
-    
-    
-    listBox = Listbox(Summary_frame, width=80, height=12)
-    index = tk.END
-    
     
     
      
