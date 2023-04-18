@@ -660,9 +660,6 @@ def Summary():
 
 root = Tk()
 
-# Adding an image to the seat selection  
-seat_image = PhotoImage(file="C:\Software Engineering\Employee_Cinema_Booking_System\Employee_Cinema_Booking_System\Image.png")
-
 
 root.minsize(height=500, width=1000)
 
