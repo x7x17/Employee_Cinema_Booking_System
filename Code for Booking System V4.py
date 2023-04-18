@@ -399,8 +399,9 @@ def seatSelect():
     
 
     # Adding an image to the window
-    seat_image = PhotoImage(file="Image.png")
+    seat_image = PhotoImage(file="image1.png")
     image_label = Label(seatSelect_frame, image=seat_image)
+    image_label.image = seat_image
     image_label.pack()
 
     # Adding a label for seat selection
