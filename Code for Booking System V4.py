@@ -167,32 +167,9 @@ def restart_gui():
     home_frame.pack(fill=NONE, expand=0)
     # Start the main event loop again
     
-    #not required
-    '''
-    # Adding an image to the seat selection  
-    seat_image = PhotoImage(file="image1.png")
-    image_label = Label(seatSelect_frame, image=seat_image)
-    image_label.image = seat_image
-    image_label.pack()
- 
-    image_label.config(border=1, relief="solid")
-    '''
+   
     root.mainloop()
 
-      
-#no longer needed
-'''
-def check_showtime(movieDict):
-    response1 = input('please key in the ID of the movie: ')
-    print('time ID  |Time')
-    for k,v in movieDict.items():
-        if v[0] == response1:
-            print(k,'       |',v[6])
-            
-    response2 = input('please key in the time ID:')
-    print('you have selected to watch a ',movieDict[response2][1], ' at the following time: ',movieDict[response2][6])
-    customer_order.append(response2)
-'''
     
             
 
@@ -253,16 +230,8 @@ def movieSelect():
         showTime_frame.pack(fill="both", expand=True)
 
     
-
-
-    '''
-    # Create the movie buttons
-    for i in range(10):
-        movie_button = Button(frame, text=f"Movie {i+1}",font=("Ariel", 10), height=1, width=30)
-        movie_button.pack(pady=5)
-    '''
     # Create the contact details button
-    contact_num = Label(frame, text="Phone Number: 0998393883939 \n Email: Vuecinema@xyz.com",height=3, width=60, font=("Ariel", 9))
+    contact_num = Label(frame, text="Phone Number: 0998393883939 \n Email: info@Keelemoviehouse.co.uk",height=3, width=60, font=("Ariel", 9))
     contact_num.pack(pady=10)
 
 
@@ -300,18 +269,6 @@ def showingTimes():
     timeSlot_dropdown = Combobox(showTime_frame, textvariable=selected_TimeSlot, values=timeSlotOptions, state="readonly")
     timeSlot_dropdown.pack()
 
-
-    #create back button to go back to the previous screen needs to be called within each screen function
-    '''def back():
-            showTime_frame.destroy()
-            home_frame = movieSelect()
-            home_frame.pack(fill=NONE, expand=0)
-    backBtn =Button(showTime_frame, text='Back', font=('Arial', 25), command=back)
-    backBtn.pack(pady=10)
-    '''
-    
-    #Back button currently has errors relating to not unpacking the previous screen and also packing the 
-    #backBtn each time the backBtn is pressed
     
 
 
@@ -325,12 +282,6 @@ def showingTimes():
         seatSelect_frame = seatSelect()
         seatSelect_frame.pack(fill=NONE, expand=0)
 
-        #for loop to check if we are able to verfy the info selected by the user to the dictionary
-        '''
-        for k,v in movieDict.items():
-            if v[1] == orderSummary[0] and v[6] == orderSummary[1]:
-                print ('success')
-        '''
     
     Submitbtn = Button(showTime_frame, text = 'Submit', command = s2ToS3)
     Submitbtn.pack(pady=30)
@@ -389,21 +340,6 @@ def seatSelect():
     selected_seat.set(seat_options[0])
     seat_dropdown = Combobox(seatSelect_frame, textvariable=selected_seat, values=seat_options, state="readonly")
     seat_dropdown.pack()
-    
-    
-    #This code block doesn't work it just displays you have selected seat 1 constantly 
-
-    '''
-     #Adding a label for displaying seat selection message
-    message_label = Label(seatSelect_frame, text="", font=("Helvetica", 12))
-    message_label.pack(pady=10)
-    def display_choosen_seat():
-    # Retrieving the selected seat
-    choosen_seat = selected_seat.get()
-    # Updating the message label with the selected seat number
-        message = f"You have selected seat {choosen_seat}"
-        message_label.config(text=message)
-    '''
     
 
     def s3ToS4():
@@ -508,23 +444,6 @@ def confirmPage():
     for widget in user_info_LabelFrame .winfo_children():
         widget.grid_configure(padx=10,pady=5)
         
-        
-        
-        """ unused code
-
-    def append_to_orderSum():
-    
-        
-        #global orderSummary
- # replace with the value you want to append
-        orderSummary.append(33)
-        print(orderSummary)
-    
-    # create a button that, when clicked, appends 33 to orderSummary
-    append_button = Button(confirmPage_frame, text="Append to Order Summary", command=append_to_orderSum)
-    append_button.grid(row=3, column=2)
-
-    """
 
     def enter_data():
             a = title_combobox.get()
