@@ -167,13 +167,16 @@ def restart_gui():
     home_frame.pack(fill=NONE, expand=0)
     # Start the main event loop again
     
+    #not required
+    '''
     # Adding an image to the seat selection  
     seat_image = PhotoImage(file="image1.png")
     image_label = Label(seatSelect_frame, image=seat_image)
+    image_label.image = seat_image
     image_label.pack()
  
     image_label.config(border=1, relief="solid")
-    
+    '''
     root.mainloop()
 
       
@@ -361,7 +364,7 @@ def seatSelect():
     
 
     # Adding an image to the window
-    seat_image = PhotoImage(file="Image.png")
+    seat_image = PhotoImage(file="image1.png")
     image_label = Label(seatSelect_frame, image=seat_image)
     image_label.image = seat_image
     image_label.pack()
