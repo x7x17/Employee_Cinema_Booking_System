@@ -168,7 +168,7 @@ def restart_gui():
     # Start the main event loop again
     
     # Adding an image to the seat selection  
-    seat_image = PhotoImage(file="C:\Software Engineering\Employee_Cinema_Booking_System\Employee_Cinema_Booking_System\Image.png")
+    seat_image = PhotoImage(file="image1.png")
     image_label = Label(seatSelect_frame, image=seat_image)
     image_label.pack()
  
