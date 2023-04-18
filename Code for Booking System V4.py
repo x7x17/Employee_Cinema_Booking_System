@@ -3,9 +3,11 @@
 
 customer_order = []
 order_history = {}
-order_history[0] = ['Pretty Woman', '14/03/2023 17:30', '4', 'aa', 'aa', 'aa', 'aa', 'aa', 'aa']
+order_history[0] = ['Pretty Woman', '14/03/2023 17:30', '4', 'Mrs', 'Alexis', 'Richardson', '37', 'Female', 'A.Richardson@gmail.com']
 orderSummary = []
 
+from datetime import datetime
+import random
 
 from fpdf import FPDF
 
@@ -14,6 +16,8 @@ class PDF(FPDF):
     def header(self):
         #logo
         #self.image('ico.ico', 10, 8, 60)
+        self.image('KeeleCinemaLogo.png', 5, 4, 30)
+        
         #font
         self.set_font('times', 'BU', size=20)
         #Padding
@@ -22,6 +26,8 @@ class PDF(FPDF):
         self.cell(90, 10, 'Movie Ticket', border=1, ln=1, align='C')
         #line break
         self.ln(20)
+        
+        
         
     
         
@@ -38,85 +44,7 @@ class PDF(FPDF):
     # Layout ('P', 'L')
     # Unit ('mm', 'cm', 'in')
     # format ('A3', 'A4' (defualt), 'A5', 'Letter', 'Legal', (100,150))
-'''
-pdf = PDF('P', 'mm', 'A4')
 
-#get total page numbers
-pdf.alias_nb_pages()
-    
-    
-    #set auto page break
-pdf.set_auto_page_break(auto=True, margin=15)
-    
-    
-    
- ## add a blank page to the PDF doc
-pdf.add_page()
-    
-    ## set font of text
-    # fonts ('times', 'courier', 'helvetica', 'symbol', 'zpfdingbats')
-    # 'B' - bold, 'U' - underlined, 'I' - italics, '' (regular), combination e.g. ('BU')
-pdf.set_font('times', 'B', 12)  
-
-#add Page Contents
-pdf.set_xy(20,40)
-pdf.cell(80, 10, 'Movie Title:', 1, 0, 'C')
-pdf.cell(40, 10, 'Showing Time:', 1, 0, 'C')
-pdf.cell(30, 10, 'Seat No:', 1, 0, 'C')
-
-
-pdf.set_xy(20, 70)
-pdf.cell(20, 10, 'Title:', 1, 0, 'C')
-pdf.cell(50, 10, 'FirstName:', 1, 0, 'C')
-pdf.cell(70, 10, 'LastName:', 1, 0, 'C')
-
-
-pdf.set_xy(20, 100)
-pdf.cell(20, 10, 'Age:', 1, 0, 'C')
-pdf.cell(20,10, 'Sex:', 1, 0, 'C')
-pdf.cell(100, 10, 'Email Address:', 1,0, 'C')
-
-
-
-#values for first table in PDF
-pdf.set_xy(20, 50)
-for k,v in order_history.items():
-        pdf.cell(80, 10, '%s' %v[0], 2, 0, 'C')
-        pdf.cell(40, 10, '%s' %v[1], 1, 0, 'C')
-        pdf.cell(30, 10, '%s' %v[2], 1, 0, 'C')
-        pdf.cell(-50)
-        
-#values for second table in PDF       
-pdf.set_xy(20, 80) 
-for k,v in order_history.items():
-        pdf.cell(20, 10, '%s' %v[3], 1, 0, 'C')
-        pdf.cell(50, 10, '%s' %v[4], 1, 0, 'C')
-        pdf.cell(70, 10, '%s' %v[5], 1, 0, 'C')
-        pdf.cell(-50)     
-
-#values for third table in PDF       
-pdf.set_xy(20, 110) 
-for k,v in order_history.items():
-        pdf.cell(20, 10, '%s' %v[6], 1, 0, 'C')
-        pdf.cell(20, 10, '%s' %v[7], 1, 0, 'C')
-        pdf.cell(100, 10, '%s' %v[8], 1, 0, 'C')
-        pdf.cell(-50)     
-
-
-
-
-    
-
-    # Add text
-    #Agruments:
-    #width 
-    #Height
-    #txt = your text
-    #ln (0 False; 1 True = move cursor down to next line)
-    #border (0 False; 1 True - add border around cell)
-
-pdf.output('fpdftest.pdf')
-'''
 
 def printpdf (orderSummary):
     pdf = PDF('P', 'mm', 'A4')
@@ -140,18 +68,21 @@ def printpdf (orderSummary):
 
     #add Page Contents
     pdf.set_xy(20,40)
-    pdf.cell(80, 10, 'Movie Title:', 1, 0, 'C')
-    pdf.cell(40, 10, 'Showing Time:', 1, 0, 'C')
-    pdf.cell(30, 10, 'Seat No:', 1, 0, 'C')
-
-
+    pdf.cell(180, 10, 'Movie Title:', 1, 0, 'C')
+    
+    
     pdf.set_xy(20, 70)
+    pdf.cell(50, 10, 'Showing Time:', 1, 0, 'C')
+    pdf.cell(50, 10, 'Seat No:', 1, 0, 'C')
+
+
+    pdf.set_xy(20, 100)
     pdf.cell(20, 10, 'Title:', 1, 0, 'C')
     pdf.cell(50, 10, 'FirstName:', 1, 0, 'C')
     pdf.cell(70, 10, 'LastName:', 1, 0, 'C')
 
 
-    pdf.set_xy(20, 100)
+    pdf.set_xy(20, 130)
     pdf.cell(20, 10, 'Age:', 1, 0, 'C')
     pdf.cell(20,10, 'Sex:', 1, 0, 'C')
     pdf.cell(100, 10, 'Email Address:', 1,0, 'C')
@@ -161,13 +92,17 @@ def printpdf (orderSummary):
     #values for first table in PDF
     pdf.set_xy(20, 50)
 
-    pdf.cell(80, 10, '%s' %orderSummary[0],1, 0, 'C')
-    pdf.cell(40, 10, '%s' %orderSummary[1], 1, 0, 'C')
-    pdf.cell(30, 10, '%s' %orderSummary[2], 1, 0, 'C')
+    pdf.cell(180, 10, '%s' %orderSummary[0],2, 0, 'C')
+    
+    #values for second table in PDF       
+    pdf.set_xy(20, 80)
+    
+    pdf.cell(50, 10, '%s' %orderSummary[1], 1, 0, 'C')
+    pdf.cell(50, 10, '%s' %orderSummary[2], 1, 0, 'C')
     pdf.cell(-50)
     
     #values for second table in PDF       
-    pdf.set_xy(20, 80) 
+    pdf.set_xy(20, 110) 
 
     pdf.cell(20, 10, '%s' %orderSummary[3], 1, 0, 'C')
     pdf.cell(50, 10, '%s' %orderSummary[4], 1, 0, 'C')
@@ -175,7 +110,7 @@ def printpdf (orderSummary):
     pdf.cell(-50)     
 
     #values for third table in PDF       
-    pdf.set_xy(20, 110) 
+    pdf.set_xy(20, 140) 
     pdf.cell(20, 10, '%s' %orderSummary[6], 1, 0, 'C')
     pdf.cell(20, 10, '%s' %orderSummary[7], 1, 0, 'C')
     pdf.cell(100, 10, '%s' %orderSummary[8], 1, 0, 'C')
@@ -188,8 +123,11 @@ def printpdf (orderSummary):
         #txt = your text
         #ln (0 False; 1 True = move cursor down to next line)
         #border (0 False; 1 True - add border around cell)
+    
+    
+    
 
-    pdf.output('fpdftest.pdf')
+    pdf.output('MovieTicket.pdf')
 
 
 
@@ -213,6 +151,31 @@ def read_csv(name):
                 movieDict[k]=v
             counter += 1     
         return movieDict
+    
+    
+def restart_gui():
+    
+    orderSummary.clear()
+    global root, home_frame
+    # Destroy the existing root window
+    root.destroy()
+    # Create a new root window
+    root = Tk()
+    root.minsize(height=500, width=1000)
+    # Reinitialize the home_frame
+    home_frame = movieSelect()
+    home_frame.pack(fill=NONE, expand=0)
+    # Start the main event loop again
+    
+    # Adding an image to the seat selection  
+    seat_image = PhotoImage(file="C:\Software Engineering\Employee_Cinema_Booking_System\Employee_Cinema_Booking_System\Image.png")
+    image_label = Label(seatSelect_frame, image=seat_image)
+    image_label.pack()
+ 
+    image_label.config(border=1, relief="solid")
+    
+    root.mainloop()
+
       
 #no longer needed
 '''
@@ -237,6 +200,11 @@ movieDict = read_csv("Software Engineering - Movie List.csv")
 from tkinter import *
 import tkinter as tk
 from tkinter.ttk import Combobox
+
+
+
+ 
+ 
 
 def movieSelect():
 
@@ -365,16 +333,10 @@ def showingTimes():
     Submitbtn.pack(pady=30)
 
 
-    def s2ToS1():
-            
-            
-            showTime_frame.pack_forget()
-            home_frame = movieSelect()
-
-            home_frame.pack(fill=NONE, expand=0)
+   
     
             
-    Backbtn = Button(showTime_frame, text="Back", command= s2ToS1)
+    Backbtn = Button(showTime_frame, text="Back", command= restart_gui)
     Backbtn.pack()
 
 
@@ -398,10 +360,13 @@ def seatSelect():
     # Adding a title to the window
     
 
-    # Adding an image to the window
-    seat_image = PhotoImage(file="Image.png")
+   
+    
     image_label = Label(seatSelect_frame, image=seat_image)
     image_label.pack()
+ 
+    image_label.config(border=1, relief="solid")
+
 
     # Adding a label for seat selection
     select_label = Label(seatSelect_frame, text="Select a seat:", font=("Helvetica", 12))
@@ -411,7 +376,7 @@ def seatSelect():
     #global orderSummary
     occuppied_seat = []
     for k,v in order_history.items():
-        if orderSummary[0] == v[0] and orderSummary[1] == v[1]:
+        if len(v) >= 3 and orderSummary[0] == v[0] and orderSummary[1] == v[1]:
             occuppied_seat.append (int(v[2]))
     #print(occuppied_seat)
     seat_options = [str(i) for i in range(1, 21) if i not in occuppied_seat]
@@ -454,7 +419,8 @@ def seatSelect():
 
 
     def s3ToS2():
-            
+    
+            del orderSummary[1]
             showingTimes_frame = showingTimes()
             seatSelect_frame.pack_forget()
             showingTimes_frame.pack(fill='both', expand=True)
@@ -540,7 +506,7 @@ def confirmPage():
         
         
         
-
+        """ unused code
 
     def append_to_orderSum():
     
@@ -554,7 +520,7 @@ def confirmPage():
     append_button = Button(confirmPage_frame, text="Append to Order Summary", command=append_to_orderSum)
     append_button.grid(row=3, column=2)
 
-
+    """
 
     def enter_data():
             a = title_combobox.get()
@@ -575,16 +541,21 @@ def confirmPage():
             order_history[len(order_history)] = orderSummary
             print(order_history)        
             orderSummary.clear()
+            
+            confirmPage_frame.destroy()
+
+            Summary_frame = Summary()
+            Summary_frame.pack(fill=NONE, expand=0)
         
 
     button =Button(confirmPage_frame, text="Submit" , command= enter_data)
     button.grid(row=3, column=1, sticky="news", padx=20, pady=10)
 
-    if button == True:
-        pdf.output('test123.pdf')
 
 
     def s4ToS3():
+            
+            del orderSummary[2]
             
             seatSelect_frame = seatSelect()
             confirmPage_frame.pack_forget()
@@ -597,14 +568,100 @@ def confirmPage():
     return confirmPage_frame
 
 
+
+
+
 # Create a new frame that displays the finally details alongside the price to pay and display payment details i..e paypal account or cash amount
 #A button should be avaible to return the user to the home_frame
 #def successScreen():
+    
+
+def Summary():
+    
+    
+    
+    Summary_frame = Frame(root)
+    
+    
+    Summary_frame = Frame(root, width=1000, height=500, bg='CadetBlue')
+    
+    # Create the heading label
+    heading_label = Label(Summary_frame, text="Order Confirmed",height=1, width=80, font=("Ariel", 12))
+    heading_label.grid(row=0, column=1, sticky="news", padx=0, pady=0)
+    
+    
+    listBox = Listbox(Summary_frame, width=80, height=12)
+    index = tk.END
+    
+    
+    
+     
+    restartBtn = Button(Summary_frame, text="Restart" , command= restart_gui)
+    restartBtn.grid(row=11, column=1, sticky="news", padx=20, pady=10)   
+     
+   
+  
+
+    current_date = datetime.now().strftime('%d/%m/%Y')
+
+    date_label = Label(Summary_frame, text=f"Current date: {current_date}")
+    date_label.grid(row=1, column=1, sticky="news", padx=20, pady=2)   
+    
+    font = ("Ariel", 12, "underline")
+    
+    pay_label = Label(Summary_frame, text="Please consult the pricing sheet for ticket pricing. Customers can pay cash or via PayPal/Bank Transfer. Payment Details below:", font=font)
+    pay_label.grid(row=2, column=1, sticky="news", padx=20, pady=2)  
+    
+    blank_label = Label(Summary_frame, bg='CadetBlue')
+    
+    blank_label2 = Label(Summary_frame, bg='CadetBlue')
+    
+    
+        # Generate fake bank details
+    bank_name = "Keele Bank"
+    account_number = ''.join(random.choices('0123456789', k=10))
+    sort_code = '12-34-56'
+    balance = round(random.uniform(500, 10000), 2)
+    
+    # Create labels for bank details
+    bank_name_label = Label(Summary_frame, text="Bank Name:", font = ("Ariel", 12))
+    bank_name_value = Label(Summary_frame, text=bank_name)
+    
+    account_number_label = Label(Summary_frame, text="Account Number:", font = ("Ariel", 12))
+    account_number_value = Label(Summary_frame, text=account_number)
+    
+    sort_code_label = Label(Summary_frame, text="Sort Code:", font = ("Ariel", 12))
+    sort_code_value = Label(Summary_frame, text=sort_code)
+    
+  
+    
+    # Add labels to the tkinter application using grid()
+    bank_name_label.grid(row=3, column=1, sticky="news", padx=20)
+    bank_name_value.grid(row=4, column=1, sticky="news", padx=20)
+    
+    blank_label.grid(row=5, column=1, sticky="news", pady=1)
+    
+    account_number_label.grid(row=6, column=1, sticky="news", padx=20)
+    account_number_value.grid(row=7, column=1, sticky="news", padx=20)
+    
+    
+    blank_label2.grid(row=8, column=1, sticky="news", pady=1)
+    
+    sort_code_label.grid(row=9, column=1, sticky="news", padx=20)
+    sort_code_value.grid(row=10, column=1, sticky="news", padx=20)
+    
+ 
+
+    return Summary_frame
 
 
 
 
 root = Tk()
+
+# Adding an image to the seat selection  
+seat_image = PhotoImage(file="C:\Software Engineering\Employee_Cinema_Booking_System\Employee_Cinema_Booking_System\Image.png")
+
 
 root.minsize(height=500, width=1000)
 
