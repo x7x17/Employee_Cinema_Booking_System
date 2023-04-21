@@ -249,7 +249,7 @@ class movie_system():
         
         Submitbtn = Button(showTime_frame, text = 'Submit', command = s2ToS3)
         Submitbtn.pack(pady=30)
-        Backbtn = Button(showTime_frame, text="Back", command= restart_gui)
+        Backbtn = Button(showTime_frame, text="Back", command= self.restart_gui)
         Backbtn.pack()
 
         return showTime_frame
