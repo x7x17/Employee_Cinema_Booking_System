@@ -51,88 +51,89 @@ class PDF(FPDF):
     # format ('A3', 'A4' (defualt), 'A5', 'Letter', 'Legal', (100,150))
 
 
-def printpdf (orderSummary):
-    pdf = PDF('P', 'mm', 'A4')
-
-    #get total page numbers
-    pdf.alias_nb_pages()
+   
+    def printpdf (orderSummary):
+        pdf = PDF('P', 'mm', 'A4')
+    
+        #get total page numbers
+        pdf.alias_nb_pages()
+            
+            
+            #set auto page break
+        pdf.set_auto_page_break(auto=True, margin=15)
+            
+            
+            
+         ## add a blank page to the PDF doc
+        pdf.add_page()
+            
+            ## set font of text
+            # fonts ('times', 'courier', 'helvetica', 'symbol', 'zpfdingbats')
+            # 'B' - bold, 'U' - underlined, 'I' - italics, '' (regular), combination e.g. ('BU')
+        pdf.set_font('times', 'B', 12)  
+    
+        #add Page Contents
+        pdf.set_xy(20,40)
+        pdf.cell(180, 10, 'Movie Title:', 1, 0, 'C')
         
         
-        #set auto page break
-    pdf.set_auto_page_break(auto=True, margin=15)
+        pdf.set_xy(20, 70)
+        pdf.cell(50, 10, 'Showing Time:', 1, 0, 'C')
+        pdf.cell(50, 10, 'Seat No:', 1, 0, 'C')
+    
+    
+        pdf.set_xy(20, 100)
+        pdf.cell(20, 10, 'Title:', 1, 0, 'C')
+        pdf.cell(50, 10, 'FirstName:', 1, 0, 'C')
+        pdf.cell(70, 10, 'LastName:', 1, 0, 'C')
+    
+    
+        pdf.set_xy(20, 130)
+        pdf.cell(20, 10, 'Age:', 1, 0, 'C')
+        pdf.cell(20,10, 'Sex:', 1, 0, 'C')
+        pdf.cell(100, 10, 'Email Address:', 1,0, 'C')
+    
+    
+    
+        #values for first table in PDF
+        pdf.set_xy(20, 50)
+    
+        pdf.cell(180, 10, '%s' %orderSummary[0],2, 0, 'C')
+        
+        #values for second table in PDF       
+        pdf.set_xy(20, 80)
+        
+        pdf.cell(50, 10, '%s' %orderSummary[1], 1, 0, 'C')
+        pdf.cell(50, 10, '%s' %orderSummary[2], 1, 0, 'C')
+        pdf.cell(-50)
+        
+        #values for second table in PDF       
+        pdf.set_xy(20, 110) 
+    
+        pdf.cell(20, 10, '%s' %orderSummary[3], 1, 0, 'C')
+        pdf.cell(50, 10, '%s' %orderSummary[4], 1, 0, 'C')
+        pdf.cell(70, 10, '%s' %orderSummary[5], 1, 0, 'C')
+        pdf.cell(-50)     
+    
+        #values for third table in PDF       
+        pdf.set_xy(20, 140) 
+        pdf.cell(20, 10, '%s' %orderSummary[6], 1, 0, 'C')
+        pdf.cell(20, 10, '%s' %orderSummary[7], 1, 0, 'C')
+        pdf.cell(100, 10, '%s' %orderSummary[8], 1, 0, 'C')
+        pdf.cell(-50)       
+    
+            # Add text
+            #Agruments:
+            #width 
+            #Height
+            #txt = your text
+            #ln (0 False; 1 True = move cursor down to next line)
+            #border (0 False; 1 True - add border around cell)
         
         
         
-     ## add a blank page to the PDF doc
-    pdf.add_page()
-        
-        ## set font of text
-        # fonts ('times', 'courier', 'helvetica', 'symbol', 'zpfdingbats')
-        # 'B' - bold, 'U' - underlined, 'I' - italics, '' (regular), combination e.g. ('BU')
-    pdf.set_font('times', 'B', 12)  
-
-    #add Page Contents
-    pdf.set_xy(20,40)
-    pdf.cell(180, 10, 'Movie Title:', 1, 0, 'C')
     
-    
-    pdf.set_xy(20, 70)
-    pdf.cell(50, 10, 'Showing Time:', 1, 0, 'C')
-    pdf.cell(50, 10, 'Seat No:', 1, 0, 'C')
-
-
-    pdf.set_xy(20, 100)
-    pdf.cell(20, 10, 'Title:', 1, 0, 'C')
-    pdf.cell(50, 10, 'FirstName:', 1, 0, 'C')
-    pdf.cell(70, 10, 'LastName:', 1, 0, 'C')
-
-
-    pdf.set_xy(20, 130)
-    pdf.cell(20, 10, 'Age:', 1, 0, 'C')
-    pdf.cell(20,10, 'Sex:', 1, 0, 'C')
-    pdf.cell(100, 10, 'Email Address:', 1,0, 'C')
-
-
-
-    #values for first table in PDF
-    pdf.set_xy(20, 50)
-
-    pdf.cell(180, 10, '%s' %orderSummary[0],2, 0, 'C')
-    
-    #values for second table in PDF       
-    pdf.set_xy(20, 80)
-    
-    pdf.cell(50, 10, '%s' %orderSummary[1], 1, 0, 'C')
-    pdf.cell(50, 10, '%s' %orderSummary[2], 1, 0, 'C')
-    pdf.cell(-50)
-    
-    #values for second table in PDF       
-    pdf.set_xy(20, 110) 
-
-    pdf.cell(20, 10, '%s' %orderSummary[3], 1, 0, 'C')
-    pdf.cell(50, 10, '%s' %orderSummary[4], 1, 0, 'C')
-    pdf.cell(70, 10, '%s' %orderSummary[5], 1, 0, 'C')
-    pdf.cell(-50)     
-
-    #values for third table in PDF       
-    pdf.set_xy(20, 140) 
-    pdf.cell(20, 10, '%s' %orderSummary[6], 1, 0, 'C')
-    pdf.cell(20, 10, '%s' %orderSummary[7], 1, 0, 'C')
-    pdf.cell(100, 10, '%s' %orderSummary[8], 1, 0, 'C')
-    pdf.cell(-50)       
-
-        # Add text
-        #Agruments:
-        #width 
-        #Height
-        #txt = your text
-        #ln (0 False; 1 True = move cursor down to next line)
-        #border (0 False; 1 True - add border around cell)
-    
-    
-    
-
-    pdf.output('MovieTicket.pdf')
+        pdf.output('MovieTicket.pdf')
     
 class movie_info ():
     def __init__(self):
@@ -152,7 +153,7 @@ class movie_info ():
             return movieDict
     
 
-class movie_system(movie_info):
+class movie_system(movie_info, PDF):
     
     def __init__ (self):
         super().__init__()
@@ -398,7 +399,8 @@ class movie_system(movie_info):
                 self.orderSummary.append(d)
                 self.orderSummary.append(e)
                 self.orderSummary.append(f)
-                printpdf(self.orderSummary)
+                #PDF.printpdf()
+                PDF.printpdf(self.orderSummary)
             
     
                 self.order_history[len(self.order_history)] = self.orderSummary
