@@ -134,22 +134,10 @@ def printpdf (orderSummary):
 
     pdf.output('MovieTicket.pdf')
     
-
-
-class movie_system():
-    
-    def __init__ (self):
-        self.customer_order = []
-        self.order_history = {}
-        self.order_history[0] = ['Pretty Woman', '14/03/2023 17:30', '4', 'Mrs', 'Alexis', 'Richardson', '37', 'Female', 'A.Richardson@gmail.com']
-        self.orderSummary = []
+class movie_info ():
+    def __init__(self):
         self.movieDict = self.read_csv("Software Engineering - Movie List.csv")
-        self.root = Tk()
-        self.root.minsize(height=500, width=1000)
-        self.home_frame = self.movieSelect()
-        self.home_frame.pack(fill=NONE, expand=0)
-        self.root.mainloop()
-
+    
     def read_csv(self,name):
         movieDict = {}
         with open(name, 'r', newline='') as file:
@@ -162,6 +150,23 @@ class movie_system():
                     movieDict[k]=v
                 counter += 1     
             return movieDict
+    
+
+class movie_system(movie_info):
+    
+    def __init__ (self):
+        super().__init__()
+        self.customer_order = []
+        self.order_history = {}
+        self.order_history[0] = ['Pretty Woman', '14/03/2023 17:30', '4', 'Mrs', 'Alexis', 'Richardson', '37', 'Female', 'A.Richardson@gmail.com']
+        self.orderSummary = []
+        self.root = Tk()
+        self.root.minsize(height=500, width=1000)
+        self.home_frame = self.movieSelect()
+        self.home_frame.pack(fill=NONE, expand=0)
+        self.root.mainloop()
+
+
     
     def movieSelect(self):
         self.frame = Frame(self.root)
@@ -236,9 +241,6 @@ class movie_system():
         selected_TimeSlot.set(timeSlotOptions[0])
         timeSlot_dropdown = Combobox(showTime_frame, textvariable=selected_TimeSlot, values=timeSlotOptions, state="readonly")
         timeSlot_dropdown.pack()
-
-        
-
 
         def s2ToS3():
             a = timeSlot_dropdown.get()
