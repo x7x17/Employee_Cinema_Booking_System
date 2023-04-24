@@ -152,7 +152,19 @@ class movie_info ():
                 counter += 1     
             return movieDict
     
-
+class backend () :
+    def retrieve_movie (movieDict):
+        temp = []
+        movie_options = []
+        for k,v in movieDict.items():
+            if v[0] not in temp:
+               # print(v[0],v[1])   
+                movie_options.append(v[1])
+                temp.append(v[0])
+        temp.clear()
+        return movie_options
+        
+        
 class movie_system(movie_info, PDF):
     
     def __init__ (self):
@@ -181,17 +193,12 @@ class movie_system(movie_info, PDF):
     
         #create movie select buttons
         #movieDict = read_csv("Software Engineering - Movie List.csv")
-        temp = []
-        movie_options = []
-        for k,v in self.movieDict.items():
-            if v[0] not in temp:
-               # print(v[0],v[1])   
-                movie_list = Label(self.frame, text=f"{v[1]}",font=("Ariel", 10), height=1, width=70)
-                movie_list.pack(pady=5)
-                movie_options.append(v[1])
-                temp.append(v[0])
-        temp.clear()
-    
+        
+        movie_options = backend.retrieve_movie(self.movieDict)
+        for i in movie_options:
+            movie_list = Label(self.frame, text=f"{i}",font=("Ariel", 10), height=1, width=70)
+            movie_list.pack(pady=5)
+            
         # Adding a dropdown menu for Movie selection
         selected_movie = StringVar()
         selected_movie.set(movie_options[0])
