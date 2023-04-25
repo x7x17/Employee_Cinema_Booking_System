@@ -16,11 +16,9 @@ from tkinter.ttk import Combobox
 
 
 
-class PDF(FPDF):
+class Ticket(FPDF):
 
     def header(self):
-        #logo
-        #self.image('ico.ico', 10, 8, 60)
         self.image('KeeleCinemaLogo.png', 5, 4, 30)
         
         #font
@@ -32,10 +30,6 @@ class PDF(FPDF):
         #line break
         self.ln(20)
         
-        
-        
-    
-        
     # page footer
     def footer(self):
             #set postion of the footer 
@@ -44,25 +38,15 @@ class PDF(FPDF):
             self.set_font('times', 'I', size=12)
             #Page number
             self.cell(0, 10, f'Page {self.page_no()}/{{nb}}', align='C' )
-
-    #Create FPDF object
-    # Layout ('P', 'L')
-    # Unit ('mm', 'cm', 'in')
-    # format ('A3', 'A4' (defualt), 'A5', 'Letter', 'Legal', (100,150))
-
-
    
     def printpdf (orderSummary):
-        pdf = PDF('P', 'mm', 'A4')
+        pdf = Ticket('P', 'mm', 'A4')
     
         #get total page numbers
         pdf.alias_nb_pages()
             
-            
             #set auto page break
         pdf.set_auto_page_break(auto=True, margin=15)
-            
-            
             
          ## add a blank page to the PDF doc
         pdf.add_page()
@@ -92,9 +76,7 @@ class PDF(FPDF):
         pdf.cell(20, 10, 'Age:', 1, 0, 'C')
         pdf.cell(20,10, 'Sex:', 1, 0, 'C')
         pdf.cell(100, 10, 'Email Address:', 1,0, 'C')
-    
-    
-    
+
         #values for first table in PDF
         pdf.set_xy(20, 50)
     
@@ -104,34 +86,23 @@ class PDF(FPDF):
         pdf.set_xy(20, 80)
         
         pdf.cell(50, 10, '%s' %orderSummary[1], 1, 0, 'C')
-        pdf.cell(50, 10, '%s' %orderSummary[2], 1, 0, 'C')
+        pdf.cell(50, 10, '%s' %orderSummary[3], 1, 0, 'C')
         pdf.cell(-50)
         
         #values for second table in PDF       
         pdf.set_xy(20, 110) 
     
-        pdf.cell(20, 10, '%s' %orderSummary[3], 1, 0, 'C')
-        pdf.cell(50, 10, '%s' %orderSummary[4], 1, 0, 'C')
-        pdf.cell(70, 10, '%s' %orderSummary[5], 1, 0, 'C')
+        pdf.cell(20, 10, '%s' %orderSummary[4], 1, 0, 'C')
+        pdf.cell(50, 10, '%s' %orderSummary[5], 1, 0, 'C')
+        pdf.cell(70, 10, '%s' %orderSummary[6], 1, 0, 'C')
         pdf.cell(-50)     
     
         #values for third table in PDF       
         pdf.set_xy(20, 140) 
-        pdf.cell(20, 10, '%s' %orderSummary[6], 1, 0, 'C')
         pdf.cell(20, 10, '%s' %orderSummary[7], 1, 0, 'C')
-        pdf.cell(100, 10, '%s' %orderSummary[8], 1, 0, 'C')
+        pdf.cell(20, 10, '%s' %orderSummary[8], 1, 0, 'C')
+        pdf.cell(100, 10, '%s' %orderSummary[9], 1, 0, 'C')
         pdf.cell(-50)       
-    
-            # Add text
-            #Agruments:
-            #width 
-            #Height
-            #txt = your text
-            #ln (0 False; 1 True = move cursor down to next line)
-            #border (0 False; 1 True - add border around cell)
-        
-        
-        
     
         pdf.output('MovieTicket.pdf')
     
@@ -152,7 +123,6 @@ class movie_info ():
                 counter += 1     
             return movieDict
     
-class backend () :
     def retrieve_movie (movieDict):
         temp = []
         movie_options = []
@@ -163,38 +133,81 @@ class backend () :
                 temp.append(v[0])
         temp.clear()
         return movie_options
+    
+    def retrieve_price (movieDict,orderSummary):
+        movie_price = 0
+        for k,v in movieDict.items():
+            if v[1] == orderSummary[0]:
+                movie_price = v[5]
+                break
+        return movie_price
+
+class showtime():
+    def retrieve_showtime (movieDict,orderSummary):
+        movie_price = 0
+        timeSlotOptions = []
+        for k,v in movieDict.items():
+            if v[1] == orderSummary[0]:
+                timeSlotOptions.append(v[6])
+                movie_price = v[5]
+        return timeSlotOptions
+    
+class seat_availability ():
+    def check_occuppied(order_history,orderSummary):
+        occuppied_seat = []
+        for k,v in order_history.items():
+           if orderSummary[0] == v[0] and orderSummary[1] == v[1]:
+              
+                occuppied_seat.append (int(v[3]))
+        return occuppied_seat
+    
+class booking ():
+    def create_order_csv(order_history,orderSummary):
+        order_history[len(order_history)] = orderSummary
+        with open('order history.csv', mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows([[key] + value for key, value in order_history.items()])
+            
+    def read_past_orders ():
+    
+        order_history = {}
+        with open("order history.csv", 'r', newline='') as file:
+            csvreader = csv.reader(file)
+            for row in csvreader:
+    
+                k = row[0]
+                v=[row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8]]
+                order_history[k]=v
+              
+            return order_history
         
-        
-class movie_system(movie_info, PDF):
+    
+class movie_system(movie_info, Ticket):
     
     def __init__ (self):
         super().__init__()
         self.customer_order = []
-        self.order_history = {}
-        self.order_history[0] = ['Pretty Woman', '14/03/2023 17:30', '4', 'Mrs', 'Alexis', 'Richardson', '37', 'Female', 'A.Richardson@gmail.com']
+  
+        self.order_history = booking.read_past_orders()
+        
+        #self.order_history[0] = ['Pretty Woman', '14/03/2023 17:30', '£7.50','4', 'Mrs', 'Alexis', 'Richardson', '37', 'Female', 'A.Richardson@gmail.com']
+        #self.order_history[1] = ['Pretty Woman', '14/03/2023 17:30', '£7.50','1', 'Mrs', 'Alexis', 'Richardson', '37', 'Female', 'A.Richardson@gmail.com']
         self.orderSummary = []
         self.root = Tk()
         self.root.minsize(height=500, width=1000)
         self.home_frame = self.movieSelect()
         self.home_frame.pack(fill=NONE, expand=0)
         self.root.mainloop()
-
-
     
     def movieSelect(self):
         self.frame = Frame(self.root)
         self.frame = Frame(self.root, width=1000, height=500, bg='CadetBlue')
-        #frame.place(x=0, y=0)
-        #frame.pack(fill="both", expand=True)
     
          # Create the heading label
         heading_label = Label(self.frame, text="List of Movies",height=1, width=80, font=("Ariel", 12))
         heading_label.pack(pady=10)
-    
         #create movie select buttons
-        #movieDict = read_csv("Software Engineering - Movie List.csv")
-        
-        movie_options = backend.retrieve_movie(self.movieDict)
+        movie_options = movie_info.retrieve_movie(self.movieDict)
         for i in movie_options:
             movie_list = Label(self.frame, text=f"{i}",font=("Ariel", 10), height=1, width=70)
             movie_list.pack(pady=5)
@@ -204,7 +217,6 @@ class movie_system(movie_info, PDF):
         selected_movie.set(movie_options[0])
         movie_dropdown = Combobox(self.frame, textvariable=selected_movie, values=movie_options, state="readonly")
         movie_dropdown.pack()
-    
         def s1ToS2():
             #global orderSummary
             a = movie_dropdown.get()
@@ -224,26 +236,20 @@ class movie_system(movie_info, PDF):
         return self.frame
             
     def showingTimes(self):
-        
         showTime_frame = Frame(self.root)
-
         showTime_frame = Frame(self.root, width=1000, height=500, bg='CadetBlue')
 
          # Create the heading label
         heading_label = Label(showTime_frame, text="Showing Times",height=1, width=80, font=("Ariel", 12))
         heading_label.pack(pady=10)
 
-
         # Create the movie buttons
-        #global orderSummary
-        timeSlotOptions = []
-        for k,v in self.movieDict.items():
-            if v[1] == self.orderSummary[0]:
-                movie_button = Button(showTime_frame, text=f"Time Slot {v[6]}",font=("Ariel", 10), height=1, width=30)
-                movie_button.pack(pady=5)
-                timeSlotOptions.append(v[6])
-
-             
+        timeSlotOptions = showtime.retrieve_showtime(self.movieDict,self.orderSummary)
+        
+        for i in range(len(timeSlotOptions)):
+            movie_button = Button(showTime_frame, text=f"Time Slot {timeSlotOptions[i]}",font=("Ariel", 10), height=1, width=30)
+            movie_button.pack(pady=5)
+        
         # Adding a dropdown menu for Time Slot selection
         selected_TimeSlot = StringVar()
         selected_TimeSlot.set(timeSlotOptions[0])
@@ -253,6 +259,8 @@ class movie_system(movie_info, PDF):
         def s2ToS3():
             a = timeSlot_dropdown.get()
             self.orderSummary.append(a)
+            self.movie_price = movie_info.retrieve_price(self.movieDict, self.orderSummary)
+            self.orderSummary.append(self.movie_price)
             showTime_frame.destroy()
             seatSelect_frame = self.seatSelect()
             seatSelect_frame.pack(fill=NONE, expand=0)
@@ -269,7 +277,6 @@ class movie_system(movie_info, PDF):
         seatSelect_frame = Frame(self.root)
         seatSelect_frame = Frame(self.root, width=1000, height=500, bg='CadetBlue')
 
-
         # Create the heading label
         heading_label = Label(seatSelect_frame, text="Seat Selection",height=1, width=80, font=("Ariel", 12))
         heading_label.pack(pady=10)
@@ -282,18 +289,12 @@ class movie_system(movie_info, PDF):
      
         image_label.config(border=1, relief="solid")
 
-
         # Adding a label for seat selection
         select_label = Label(seatSelect_frame, text="Select a seat:", font=("Helvetica", 12))
         select_label.pack(pady=(20, 10))
-
+        
         # Adding a dropdown menu for seat selection
-        #global orderSummary
-        occuppied_seat = []
-        for k,v in self.order_history.items():
-            if len(v) >= 3 and self.orderSummary[0] == v[0] and self.orderSummary[1] == v[1]:
-                occuppied_seat.append (int(v[2]))
-        #print(occuppied_seat)
+        occuppied_seat = seat_availability.check_occuppied(self.order_history, self.orderSummary)
         seat_options = [str(i) for i in range(1, 21) if i not in occuppied_seat]
         occuppied_seat.clear()
         selected_seat = StringVar()
@@ -340,7 +341,8 @@ class movie_system(movie_info, PDF):
         index = tk.END
         listBox.insert(index,'Movie:'+self.orderSummary[0])
         listBox.insert(index,'Time: '+self.orderSummary[1])
-        listBox.insert(index, 'Seat number: '+self.orderSummary[2])
+        listBox.insert(index, 'Seat number: '+self.orderSummary[3])
+        listBox.insert(index, 'Price: '+self.orderSummary[2])
         listBox.grid(row=1, column=1, sticky="news", padx=20, pady=10)
     
     
@@ -406,12 +408,11 @@ class movie_system(movie_info, PDF):
                 self.orderSummary.append(d)
                 self.orderSummary.append(e)
                 self.orderSummary.append(f)
-                #PDF.printpdf()
-                PDF.printpdf(self.orderSummary)
+                Ticket.printpdf(self.orderSummary)
             
-    
-                self.order_history[len(self.order_history)] = self.orderSummary
-              
+                
+               
+                booking.create_order_csv(self.order_history,self.orderSummary)
                 self.orderSummary.clear()
                 
                 confirmPage_frame.destroy()
@@ -454,9 +455,6 @@ class movie_system(movie_info, PDF):
         listBox = Listbox(Summary_frame, width=80, height=12)
         index = tk.END
 
-         
-        restartBtn = Button(Summary_frame, text="Restart" , command= self.restart_gui)
-        restartBtn.grid(row=11, column=1, sticky="news", padx=20, pady=10)   
 
         current_date = datetime.now().strftime('%d/%m/%Y')
 
@@ -504,7 +502,7 @@ class movie_system(movie_info, PDF):
         sort_code_label.grid(row=9, column=1, sticky="news", padx=20)
         sort_code_value.grid(row=10, column=1, sticky="news", padx=20)
         
-     
+    
 
         return Summary_frame
         
